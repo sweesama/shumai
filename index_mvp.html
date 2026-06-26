@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>书脉 AI | 把古籍变成知识地图</title>
+  <style>
+    :root {
+      --bg: #07111f;
+      --bg-soft: rgba(255, 255, 255, 0.06);
+      --panel: rgba(10, 18, 33, 0.7);
+      --panel-strong: rgba(10, 18, 33, 0.88);
+      --line: rgba(255, 255, 255, 0.12);
+      --text: #f7f6f2;
+      --muted: rgba(247, 246, 242, 0.72);
+      --accent: #90d7ff;
+      --accent-strong: #a6ffd8;
+      --gold: #dcc59c;
+      --danger: #ffb3b3;
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 18px;
+      --radius-sm: 12px;
+      --max-width: 1440px;
+      --transition: 220ms ease;
+      
+      /* Awwwards-level enhancements */
+      --glow-accent: 0 0 40px rgba(144, 215, 255, 0.3);
+      --glow-gold: 0 0 40px rgba(220, 197, 156, 0.25);
+      --depth-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.2);
+      --card-hover-transform: translateY(-4px) scale(1.005);
+      --node-pulse: 0 0 0 4px rgba(144, 215, 255, 0.15), 0 0 0 8px rgba(144, 215, 255, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Inter", "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 20% 20%, rgba(32, 83, 160, 0.45), transparent 25%),
+        radial-gradient(circle at 80% 18%, rgba(135, 58, 179, 0.28), transparent 22%),
+        radial-gradient(circle at 50% 90%, rgba(190, 145, 87, 0.2), transparent 28%),
+        linear-gradient(180deg, #07111f 0%, #081520 32%, #091622 60%, #050a13 100%);
+      overflow-x: hidden;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      width: min(calc(100% - 40px), var(--max-width));
+      margin: 0 auto;
+      padding: 28px 0 56px;
+    }
+
+    .glass {
+      position: relative;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      background: linear-gradient(180deg, rgba(18, 26, 43, 0.88), rgba(8, 14, 24, 0.72));
+      box-shadow: var(--depth-shadow);
+      backdrop-filter: blur(20px);
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .glass:hover {
+      box-shadow: 0 32px 96px rgba(0, 0, 0, 0.45), var(--glow-accent);
+    }
+
+    h1 {
+      margin: 22px 0 18px;
+      font-size: clamp(42px, 7vw, 82px);
+      line-height: 0.98;
+      letter-spacing: -0.05em;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 50px;
+      padding: 0 24px;
+      border: 1px solid transparent;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .button-primary {
+      color: #05121b;
+      background: linear-gradient(135deg, var(--accent-strong), var(--accent));
+      box-shadow: 0 12px 32px rgba(144, 215, 255, 0.22);
+    }
+
+    .button-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 40px rgba(144, 215, 255, 0.35), var(--glow-accent);
+    }
+
+    .hero {
+      text-align: center;
+      padding: 60px 20px;
+      margin-bottom: 40px;
+    }
+
+    .search-container {
+      max-width: 800px;
+      margin: 40px auto;
+    }
+
+    .search-input {
+      display: flex;
+      gap: 12px;
+      padding: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 999px;
+      backdrop-filter: blur(10px);
+    }
+
+    .search-input input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      color: var(--text);
+      font-size: 18px;
+      padding: 12px 20px;
+      outline: none;
+    }
+
+    .search-input input::placeholder {
+      color: var(--muted);
+    }
+
+    .main-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 40px;
+    }
+
+    .section {
+      padding: 32px;
+    }
+
+    .section-title {
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: var(--accent);
+    }
+
+    .identity-card {
+      display: grid;
+      gap: 16px;
+    }
+
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .info-label {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .info-value {
+      font-weight: 600;
+    }
+
+    .knowledge-tree {
+      min-height: 400px;
+      position: relative;
+      padding: 20px;
+    }
+
+    .tree-node {
+      position: absolute;
+      padding: 12px 20px;
+      background: rgba(144, 215, 255, 0.1);
+      border: 1px solid rgba(144, 215, 255, 0.3);
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 14px;
+    }
+
+    .tree-node:hover {
+      background: rgba(144, 215, 255, 0.2);
+      transform: scale(1.05);
+      box-shadow: var(--glow-accent);
+    }
+
+    .tree-node.active {
+      background: rgba(144, 215, 255, 0.3);
+      border-color: var(--accent);
+      box-shadow: var(--node-pulse);
+    }
+
+    .detail-panel {
+      margin-top: 24px;
+    }
+
+    .detail-block {
+      margin-bottom: 20px;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: var(--radius-md);
+      border-left: 3px solid var(--accent);
+    }
+
+    .detail-label {
+      color: var(--accent);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 8px;
+    }
+
+    .detail-content {
+      line-height: 1.8;
+      color: var(--text);
+    }
+
+    .loading {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 2px solid rgba(144, 215, 255, 0.3);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 4px 12px;
+      background: rgba(144, 215, 255, 0.1);
+      border: 1px solid rgba(144, 215, 255, 0.2);
+      border-radius: 999px;
+      font-size: 12px;
+      margin-right: 8px;
+      margin-bottom: 8px;
+    }
+
+    @media (max-width: 768px) {
+      .main-content {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="hero">
+      <h1>书脉 AI</h1>
+      <p style="color: var(--muted); font-size: 18px; max-width: 600px; margin: 0 auto;">
+        输入任意古籍名称或粘贴原文，AI 将为您生成专属的知识地图和阅读路径
+      </p>
+      
+      <div class="search-container">
+        <div class="search-input">
+          <input type="text" id="bookInput" placeholder="例如：山海经、论语、史记，或直接粘贴古籍原文..." />
+          <button class="button button-primary" id="generateBtn">生成知识地图</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="main-content" id="mainContent" style="display: none;">
+      <div class="glass section">
+        <h2 class="section-title">📚 古籍身份卡</h2>
+        <div id="identityCard" class="identity-card"></div>
+        
+        <h2 class="section-title" style="margin-top: 32px;">🗺️ 阅读路线</h2>
+        <div id="readingRoutes"></div>
+      </div>
+
+      <div class="glass section">
+        <h2 class="section-title">🌳 知识树</h2>
+        <div id="knowledgeTree" class="knowledge-tree"></div>
+        
+        <div class="detail-panel" id="detailPanel" style="display: none;">
+          <h2 class="section-title">📖 详细解读</h2>
+          <div id="detailContent"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ===== 书脉 AI - Functional MVP Engine =====
+    
+    const contentCache = new Map();
+    
+    // 智能古籍分析引擎
+    class AncientBookAnalyzer {
+      static analyze(bookName, text = '') {
+        // 检测时代
+        const era = this.detectEra(bookName, text);
+        
+        // 推断类型
+        const type = this.inferType(bookName, text);
+        
+        // 提取关键词
+        const keywords = this.extractKeywords(text || bookName);
+        
+        // 生成身份卡
+        const identity = this.generateIdentity(bookName, era, type);
+        
+        // 生成知识树节点
+        const nodes = this.generateNodes(keywords, bookName);
+        
+        return {
+          name: bookName,
+          era,
+          type,
+          keywords,
+          identity,
+          nodes,
+          score: Math.floor(Math.random() * 15) + 80
+        };
+      }
+      
+      static detectEra(name, text) {
+        const content = (name + ' ' + text).toLowerCase();
+        
+        const eraMap = {
+          '先秦': ['山海经', '诗经', '尚书', '周易', '论语', '孟子'],
+          '两汉': ['史记', '汉书', '淮南子', '盐铁论'],
+          '魏晋': ['世说新语', '三国志', '文心雕龙'],
+          '唐代': ['唐诗', '唐书', '贞观政要'],
+          '宋代': ['宋史', '东京梦华录', '资治通鉴'],
+          '明代': ['天工开物', '本草纲目', '西游记', '水浒传'],
+          '清代': ['红楼梦', '儒林外史', '聊斋志异']
+        };
+        
+        for (const [era, books] of Object.entries(eraMap)) {
+          if (books.some(book => content.includes(book))) {
+            return era;
+          }
+        }
+        
+        return '古代';
+      }
+      
+      static inferType(name, text) {
+        const content = name + text;
+        
+        if (content.match(/经|典|论/)) return '经典著作';
+        if (content.match(/史|记/)) return '历史典籍';
+        if (content.match(/诗|词|赋/)) return '诗词文集';
+        if (content.match(/工|艺|术/)) return '工艺技术';
+        if (content.match(/医|药|方/)) return '医药养生';
+        if (content.match(/农|耕/)) return '农业技术';
+        
+        return '古代文献';
+      }
+      
+      static extractKeywords(text) {
+        if (!text || text.length < 10) {
+          return ['核心主题', '关键人物', '重要概念', '文化背景'];
+        }
+        
+        // 简单的中文分词模拟（基于常见模式）
+        const patterns = [
+          /([^之的]){2,4}之[^的]{1,3}/g,
+          /有[^焉]{1,4}焉/g,
+          /[东南西北中][^山]{0,3}山/g,
+          /[^神]{1,3}神/g,
+          /[^兽]{1,3}兽/g
+        ];
+        
+        const keywords = new Set();
+        patterns.forEach(pattern => {
+          let match;
+          while ((match = pattern.exec(text)) !== null) {
+            if (match[0].length >= 2 && match[0].length <= 6) {
+              keywords.add(match[0]);
+            }
+          }
+        });
+        
+        // 如果提取不到足够的关键词，使用默认值
+        const defaults = ['核心思想', '主要人物', '历史背景', '文化价值', '后世影响'];
+        const result = Array.from(keywords);
+        
+        return result.length > 0 ? result.slice(0, 6) : defaults;
+      }
+      
+      static generateIdentity(name, era, type) {
+        return [
+          ['书名', name],
+          ['成书时代', era],
+          ['内容类型', type],
+          ['作者', '待考证（可上传原文补充）'],
+          ['适合人群', '传统文化爱好者、学生、研究者'],
+          ['阅读建议', '从核心概念开始，逐步探索关联知识']
+        ];
+      }
+      
+      static generateNodes(keywords, bookName) {
+        const nodes = [
+          { id: 'root', label: bookName, x: 50, y: 50, type: 'root' }
+        ];
+        
+        // 围绕中心节点分布关键词
+        keywords.forEach((keyword, index) => {
+          const angle = (index / keywords.length) * 2 * Math.PI - Math.PI / 2;
+          const radius = 35;
+          nodes.push({
+            id: `node_${index}`,
+            label: keyword,
+            x: 50 + radius * Math.cos(angle),
+            y: 50 + radius * Math.sin(angle),
+            type: 'keyword'
+          });
+        });
+        
+        return nodes;
+      }
+      
+      static generateDetail(keyword, bookName) {
+        const cacheKey = `${bookName}_${keyword}`;
+        if (contentCache.has(cacheKey)) {
+          return contentCache.get(cacheKey);
+        }
+        
+        // 模拟 AI 生成内容
+        const detail = {
+          tags: ['智能生成', '知识节点', '可深入探索'],
+          original: `关于「${keyword}」在《${bookName}》中的记载需要结合原文深入分析。`,
+          translation: `「${keyword}」是理解这部古籍的重要切入点，它反映了当时的文化观念和社会背景。`,
+          notes: '此内容由 AI 基于知识库生成，建议结合权威注本进行验证。',
+          evolution: '随着学术研究的深入，对此概念的理解也在不断演进和完善。',
+          impact: '对后世的文学创作、思想发展产生了深远的影响。',
+          more: '可进一步查阅相关学术研究，或探索其他关联节点。'
+        };
+        
+        contentCache.set(cacheKey, detail);
+        return detail;
+      }
+    }
+    
+    // UI 控制器
+    class UIManager {
+      static showLoading(button) {
+        const originalText = button.textContent;
+        button.innerHTML = '<span class="loading"></span> 生成中...';
+        button.disabled = true;
+        return originalText;
+      }
+      
+      static hideLoading(button, originalText) {
+        button.textContent = originalText;
+        button.disabled = false;
+      }
+      
+      static renderIdentityCard(identity) {
+        const container = document.getElementById('identityCard');
+        container.innerHTML = identity.map(([label, value]) => `
+          <div class="info-row">
+            <span class="info-label">${label}</span>
+            <span class="info-value">${value}</span>
+          </div>
+        `).join('');
+      }
+      
+      static renderReadingRoutes(bookName) {
+        const routes = [
+          ['第一步：了解背景', `先理解《${bookName}》的成书时代和文化背景`, '建立认知框架'],
+          ['第二步：核心概念', '探索书中的关键思想和主要人物', '抓住重点'],
+          ['第三步：深入原文', '带着背景知识阅读原文，理解更深刻', '融会贯通']
+        ];
+        
+        const container = document.getElementById('readingRoutes');
+        container.innerHTML = routes.map(([title, desc, note], i) => `
+          <div style="margin-bottom: 16px; padding: 16px; background: rgba(255,255,255,0.03); border-radius: 12px;">
+            <div style="font-weight: 600; margin-bottom: 8px;">${i + 1}. ${title}</div>
+            <div style="color: var(--muted); font-size: 14px;">${desc}</div>
+            <div style="color: var(--gold); font-size: 12px; margin-top: 4px;">💡 ${note}</div>
+          </div>
+        `).join('');
+      }
+      
+      static renderKnowledgeTree(nodes, onClick) {
+        const container = document.getElementById('knowledgeTree');
+        container.innerHTML = '';
+        
+        nodes.forEach(node => {
+          const el = document.createElement('div');
+          el.className = 'tree-node';
+          el.textContent = node.label;
+          el.style.left = `${node.x}%`;
+          el.style.top = `${node.y}%`;
+          el.style.transform = 'translate(-50%, -50%)';
+          
+          if (node.type === 'root') {
+            el.style.background = 'rgba(166, 255, 216, 0.2)';
+            el.style.borderColor = 'var(--accent-strong)';
+            el.style.fontWeight = 'bold';
+          }
+          
+          el.addEventListener('click', () => {
+            document.querySelectorAll('.tree-node').forEach(n => n.classList.remove('active'));
+            el.classList.add('active');
+            onClick(node.label);
+          });
+          
+          container.appendChild(el);
+        });
+      }
+      
+      static renderDetail(keyword, bookName) {
+        const detail = AncientBookAnalyzer.generateDetail(keyword, bookName);
+        const panel = document.getElementById('detailPanel');
+        const content = document.getElementById('detailContent');
+        
+        panel.style.display = 'block';
+        content.innerHTML = `
+          <div style="margin-bottom: 16px;">
+            ${detail.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+          </div>
+          
+          <div class="detail-block">
+            <div class="detail-label">原文出处</div>
+            <div class="detail-content">${detail.original}</div>
+          </div>
+          
+          <div class="detail-block">
+            <div class="detail-label">白话解读</div>
+            <div class="detail-content">${detail.translation}</div>
+          </div>
+          
+          <div class="detail-block">
+            <div class="detail-label">注释说明</div>
+            <div class="detail-content">${detail.notes}</div>
+          </div>
+          
+          <div class="detail-block">
+            <div class="detail-label">演变历程</div>
+            <div class="detail-content">${detail.evolution}</div>
+          </div>
+          
+          <div class="detail-block">
+            <div class="detail-label">后世影响</div>
+            <div class="detail-content">${detail.impact}</div>
+          </div>
+          
+          <div class="detail-block">
+            <div class="detail-label">延伸阅读</div>
+            <div class="detail-content">${detail.more}</div>
+          </div>
+        `;
+        
+        // 滚动到详情区域
+        panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    }
+    
+    // 主应用逻辑
+    const bookInput = document.getElementById('bookInput');
+    const generateBtn = document.getElementById('generateBtn');
+    const mainContent = document.getElementById('mainContent');
+    
+    let currentBook = null;
+    
+    generateBtn.addEventListener('click', async () => {
+      const input = bookInput.value.trim();
+      if (!input) {
+        alert('请输入古籍名称或粘贴原文');
+        return;
+      }
+      
+      // 显示加载状态
+      const originalText = UIManager.showLoading(generateBtn);
+      
+      // 模拟 AI 处理延迟
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      try {
+        // 分析古籍
+        const analysis = AncientBookAnalyzer.analyze(input.replace(/[《》]/g, ''));
+        currentBook = analysis;
+        
+        // 渲染界面
+        mainContent.style.display = 'grid';
+        UIManager.renderIdentityCard(analysis.identity);
+        UIManager.renderReadingRoutes(analysis.name);
+        UIManager.renderKnowledgeTree(analysis.nodes, (keyword) => {
+          UIManager.renderDetail(keyword, analysis.name);
+        });
+        
+        // 隐藏加载
+        UIManager.hideLoading(generateBtn, originalText);
+        
+        // 滚动到主要内容
+        mainContent.scrollIntoView({ behavior: 'smooth' });
+        
+      } catch (error) {
+        console.error('分析失败:', error);
+        alert('生成失败，请重试');
+        UIManager.hideLoading(generateBtn, originalText);
+      }
+    });
+    
+    // 回车键触发
+    bookInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        generateBtn.click();
+      }
+    });
+    
+    console.log('✨ 书脉 AI MVP 已加载');
+  </script>
+</body>
+</html>
