@@ -1043,37 +1043,37 @@ button,input,textarea{font:inherit;color:inherit}
    分析器视图
    ═══════════════════════════════════════════════ */
 #page-analyzer{background:var(--bg)}
-.analyzer-container{flex:1;overflow-y:auto;padding:var(--sp-10) var(--sp-8) var(--sp-16);scroll-behavior:smooth;max-width:1280px;margin:0 auto}
+.analyzer-container{flex:1;overflow-y:auto;padding:var(--sp-10) var(--sp-8) var(--sp-16);scroll-behavior:smooth;max-width:1400px;margin:0 auto;display:grid;grid-template-columns:5fr 7fr;gap:var(--sp-8);align-items:start}
 .analyzer-container::-webkit-scrollbar{width:6px}
 .analyzer-container::-webkit-scrollbar-track{background:transparent}
 .analyzer-container::-webkit-scrollbar-thumb{background:var(--rule);border-radius:3px}
-.analyzer-header{margin-bottom:var(--sp-8);text-align:center;max-width:680px;margin-left:auto;margin-right:auto}
+.analyzer-left{display:flex;flex-direction:column;gap:var(--sp-5);position:sticky;top:0}
+.analyzer-header{margin-bottom:0}
 .analyzer-header .ah-eyebrow{
   font-family:var(--sans);font-size:var(--fs-xs);letter-spacing:.3em;
-  color:var(--gold);text-transform:uppercase;font-weight:600;margin-bottom:var(--sp-2);
-  display:flex;align-items:center;justify-content:center;gap:var(--sp-3);
+  color:var(--gold);text-transform:uppercase;font-weight:600;margin-bottom:var(--sp-3);
+  display:flex;align-items:center;gap:var(--sp-3);
 }
-.analyzer-header .ah-eyebrow::before,.analyzer-header .ah-eyebrow::after{content:"";display:block;width:24px;height:1px;background:var(--gold);opacity:.4}
+.analyzer-header .ah-eyebrow::after{content:"";flex:1;height:1px;background:var(--gold);opacity:.3}
 .analyzer-header h2{
   font-family:var(--serif);font-size:var(--fs-5xl);font-weight:200;color:var(--ink);
-  letter-spacing:.06em;position:relative;padding-bottom:var(--sp-4);line-height:1;
+  letter-spacing:.06em;line-height:1;margin-bottom:var(--sp-3);
 }
-.analyzer-header h2::after{content:"";position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:48px;height:2px;background:linear-gradient(90deg,var(--accent),transparent);border-radius:1px}
-.analyzer-header .ah-desc{font-family:var(--serif);font-size:var(--fs-lg);color:var(--ink-soft);margin-top:var(--sp-4);line-height:1.9}
-.analyzer-input{margin-bottom:var(--sp-8);background:var(--surface);border:1px solid var(--rule-soft);border-radius:var(--r-lg);padding:var(--sp-6);transition:border-color var(--dur-base) ease;box-shadow:var(--shadow-sm)}
+.analyzer-header .ah-desc{font-family:var(--serif);font-size:var(--fs-md);color:var(--muted);line-height:1.8}
+.analyzer-input{background:var(--surface);border:1px solid var(--rule-soft);border-radius:var(--r-lg);padding:var(--sp-6);transition:border-color var(--dur-base) ease;box-shadow:var(--shadow-sm)}
 .analyzer-input:focus-within{border-color:var(--ink);box-shadow:var(--shadow-md)}
 .analyzer-input textarea{
-  width:100%;min-height:140px;resize:vertical;
-  padding:var(--sp-4) var(--sp-5);border:1px solid var(--rule);border-radius:var(--r);
-  background:var(--bg);font-family:var(--serif);font-size:var(--fs-lg);line-height:2;letter-spacing:.02em;
+  width:100%;min-height:240px;resize:vertical;
+  padding:var(--sp-5) var(--sp-6);border:1px solid var(--rule);border-radius:var(--r);
+  background:var(--bg);font-family:var(--serif);font-size:var(--fs-lg);line-height:2.1;letter-spacing:.02em;
   outline:none;transition:all var(--dur-base) var(--ease-out);
 }
 .analyzer-input textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(156,52,52,.08)}
 .analyzer-input textarea::placeholder{color:var(--muted-2);font-style:italic}
 .analyzer-actions{display:flex;gap:var(--sp-3);margin-top:var(--sp-4);align-items:center}
 .analyzer-actions .hint{font-family:var(--sans);font-size:var(--fs-sm);color:var(--muted);margin-left:auto}
-.analyzer-right{min-height:300px}
-.analyzer-left{}
+.analyzer-right{min-height:600px;background:var(--surface);border:1px solid var(--rule-soft);border-radius:var(--r-lg);padding:var(--sp-6)}
+.analyzer-right .analyzer-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;min-height:400px;text-align:center}
 .result-status{
   display:flex;align-items:center;gap:var(--sp-3);padding:var(--sp-3) var(--sp-4);
   border-radius:var(--r);margin-bottom:var(--sp-4);
@@ -1541,6 +1541,74 @@ button,input,textarea{font:inherit;color:inherit}
 .note-group-title{font-family:var(--sans);font-size:var(--fs-xs);letter-spacing:.1em;color:var(--muted);text-transform:uppercase;margin-bottom:var(--sp-1);padding-left:var(--sp-1);display:flex;align-items:center;gap:var(--sp-1)}
 .note-group-title::before{content:"";width:3px;height:12px;border-radius:2px;background:var(--accent)}
 
+/* 功能引导区 */
+.feature-guide{
+  padding:var(--sp-16) var(--sp-8) var(--sp-12);
+  max-width:1280px;margin:0 auto;
+}
+.feature-guide-header{text-align:center;margin-bottom:var(--sp-10)}
+.fg-eyebrow{
+  font-family:var(--sans);font-size:10px;letter-spacing:.4em;
+  color:var(--accent);text-transform:uppercase;font-weight:600;
+  margin-bottom:var(--sp-3);
+  display:flex;align-items:center;justify-content:center;gap:var(--sp-3);
+}
+.fg-eyebrow::before,.fg-eyebrow::after{content:"";display:block;width:32px;height:1px;background:var(--accent);opacity:.4}
+.fg-title{
+  font-family:var(--serif);font-size:clamp(28px,4vw,44px);font-weight:200;
+  color:var(--ink);letter-spacing:.04em;
+}
+.feature-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:var(--sp-4);
+}
+.feature-card{
+  background:var(--surface);border:1px solid var(--rule-soft);border-radius:var(--r);
+  padding:var(--sp-8);cursor:pointer;position:relative;overflow:hidden;
+  transition:all var(--dur-slow) var(--ease-out);
+  display:flex;flex-direction:column;gap:var(--sp-4);
+  min-height:280px;
+}
+.feature-card::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--accent),transparent);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform var(--dur-slow) var(--ease-out);
+}
+.feature-card:hover{
+  border-color:var(--ink);transform:translateY(-4px);
+  box-shadow:0 16px 40px -16px rgba(0,0,0,.15);
+}
+[data-theme="dark"] .feature-card:hover{border-color:var(--gold);box-shadow:0 16px 40px -16px rgba(0,0,0,.4)}
+.feature-card:hover::before{transform:scaleX(1)}
+.fc-num{
+  font-family:var(--sans);font-size:11px;letter-spacing:.2em;
+  color:var(--muted);font-weight:600;
+}
+.fc-icon{
+  width:48px;height:48px;color:var(--accent);
+  transition:transform var(--dur-slow) var(--ease-spring);
+}
+.feature-card:hover .fc-icon{transform:scale(1.1) translateY(-2px)}
+.fc-body{flex:1}
+.fc-title{
+  font-family:var(--serif);font-size:var(--fs-xl);font-weight:600;
+  color:var(--ink);margin-bottom:var(--sp-2);letter-spacing:.04em;
+}
+.fc-desc{
+  font-family:var(--sans);font-size:var(--fs-sm);color:var(--muted);
+  line-height:1.8;
+}
+.fc-arrow{
+  font-size:var(--fs-lg);color:var(--muted);
+  transition:all var(--dur-base) var(--ease-out);
+  align-self:flex-end;
+}
+.feature-card:hover .fc-arrow{color:var(--accent);transform:translateX(4px)}
+@media(max-width:900px){
+  .feature-grid{grid-template-columns:1fr}
+  .feature-card{min-height:auto}
+}
+
 /* 响应式 */
 @media(max-width:1024px){
   .shelf-grid{grid-template-columns:1fr 1fr}
@@ -1553,6 +1621,9 @@ button,input,textarea{font:inherit;color:inherit}
   .shelf-hero{grid-template-columns:1fr;min-height:auto;padding-top:var(--sp-16)}
   .shelf-hero-visual{order:-1;margin-bottom:var(--sp-4)}
   .hfc-cover{height:220px}
+  .analyzer-container{grid-template-columns:1fr}
+  .analyzer-left{position:static}
+  .analyzer-right{min-height:300px}
 }
 @media(max-width:640px){
   .mode-tab{padding:var(--sp-2) var(--sp-2);font-size:10px;letter-spacing:.04em}
@@ -1841,6 +1912,48 @@ button,input,textarea{font:inherit;color:inherit}
     <span>天行健，君子以自强不息</span>
   </div>
 </div>
+    <!-- 功能引导区：让用户第一眼明白网站能干什么 -->
+    <div class="feature-guide">
+      <div class="feature-guide-header">
+        <div class="fg-eyebrow">三步开始</div>
+        <div class="fg-title">从一卷书，到一个知识宇宙</div>
+      </div>
+      <div class="feature-grid">
+        <div class="feature-card" onclick="navigateTo('shelf')" tabindex="0" role="button" onkeydown="if(event.key==='Enter')navigateTo('shelf')">
+          <div class="fc-num">01</div>
+          <div class="fc-icon">
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 8h14v32H8z"/><path d="M26 8h14v32H26z"/><path d="M12 16h6M12 22h6M30 16h6M30 22h6"/></svg>
+          </div>
+          <div class="fc-body">
+            <div class="fc-title">选一卷书</div>
+            <div class="fc-desc">83 部经典古籍，从《论语》到《山海经》，任选一卷开始阅读原文</div>
+          </div>
+          <div class="fc-arrow">→</div>
+        </div>
+        <div class="feature-card" onclick="navigateTo('graph')" tabindex="0" role="button" onkeydown="if(event.key==='Enter')navigateTo('graph')">
+          <div class="fc-num">02</div>
+          <div class="fc-icon">
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="24" cy="12" r="4"/><circle cx="12" cy="32" r="4"/><circle cx="36" cy="32" r="4"/><circle cx="24" cy="40" r="3"/><path d="M24 16v12M24 28l-8 0M24 28l8 0M16 32v0M32 32v0"/></svg>
+          </div>
+          <div class="fc-body">
+            <div class="fc-title">AI 活化知识图谱</div>
+            <div class="fc-desc">点击「AI 活化」，DeepSeek 自动提取人物、地点、概念，生成可交互的知识关系网</div>
+          </div>
+          <div class="fc-arrow">→</div>
+        </div>
+        <div class="feature-card" onclick="navigateTo('analyzer')" tabindex="0" role="button" onkeydown="if(event.key==='Enter')navigateTo('analyzer')">
+          <div class="fc-num">03</div>
+          <div class="fc-icon">
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 40l8-24 8 16 8-8 8 16"/><circle cx="16" cy="16" r="2"/><circle cx="24" cy="32" r="2"/><circle cx="32" cy="24" r="2"/></svg>
+          </div>
+          <div class="fc-body">
+            <div class="fc-title">分析任意文言文</div>
+            <div class="fc-desc">粘贴任意段落，AI 自动翻译为白话文、提取实体并生成深度解读</div>
+          </div>
+          <div class="fc-arrow">→</div>
+        </div>
+      </div>
+    </div>
     <!-- 书籍展示区 -->
     <div class="shelf-collection">
       <div class="shelf-collection-eyebrow">藏 · 书 · 阁</div>
@@ -1947,28 +2060,32 @@ button,input,textarea{font:inherit;color:inherit}
 <!-- ════ 文本分析页 ════ -->
 <div class="page" id="page-analyzer">
   <div class="analyzer-container">
+    <div class="analyzer-left">
       <div class="analyzer-header">
         <div class="ah-eyebrow">AI Text Analysis</div>
         <h2>文本分析</h2>
         <div class="ah-desc">粘贴任意文言文段落，AI 将自动提取实体、翻译并生成深度解读</div>
       </div>
       <div class="analyzer-input">
-        <textarea id="analyzerInput" placeholder="在此粘贴古籍原文进行 AI 分析...&#10;&#10;支持任意文言文段落，AI 会自动提取实体、翻译为白话文并生成深度解读。" style="min-height:160px"></textarea>
+        <textarea id="analyzerInput" placeholder="在此粘贴古籍原文进行 AI 分析...&#10;&#10;例如：「学而时习之，不亦说乎？有朋自远方来，不亦乐乎？」"></textarea>
         <div class="analyzer-actions">
           <button class="btn btn-primary btn-sm" id="doAnalyzeBtn"><span class="ico"><svg viewBox="0 0 24 24"><path d="M5 3l14 9-14 9z"/></svg></span>AI 分析</button>
           <button class="btn btn-ghost btn-sm" id="loadSampleBtn"><span class="ico"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></span>载入示例</button>
           <span class="hint">支持任意文言文段落</span>
         </div>
       </div>
+    </div>
+    <div class="analyzer-right">
       <div class="analyzer-results" id="analyzerResults">
         <div class="analyzer-placeholder">
-          <div style="font-size:32px;margin-bottom:var(--sp-3);opacity:.3">📜</div>
-          <div style="color:var(--muted);font-size:var(--fs-sm);line-height:1.8;text-align:center">
-            粘贴文言文段落，点击"AI 分析"<br>
+          <div style="font-size:48px;margin-bottom:var(--sp-4);opacity:.2">📜</div>
+          <div style="color:var(--muted);font-size:var(--fs-md);line-height:1.9;text-align:center">
+            粘贴文言文段落，点击「AI 分析」<br>
             AI 将自动提取实体、翻译并生成深度解读
           </div>
         </div>
-  </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -4158,6 +4275,13 @@ function renderShelf(){
     </div>`;
   }).join("");
   document.querySelectorAll(".shelf-card").forEach(c=>{c.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();c.click()}})});
+  // 卡片入场动画 - 直接用 setTimeout 错峰显示，不依赖 IntersectionObserver
+  // 修复 bug：renderShelf 重新调用（活化新书后回首页）时新卡片未绑定 observer，
+  // 导致 opacity:0 永不显示（能点击但看不到）
+  const cards=els.shelfGrid.querySelectorAll(".shelf-card");
+  cards.forEach((c,i)=>{
+    setTimeout(()=>c.classList.add("revealed"), 80*i);
+  });
 }
 
 window.openBook=function(key){
