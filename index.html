@@ -372,9 +372,10 @@ button,input,textarea{font:inherit;color:inherit}
 }
 .hfc-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse 2s ease-in-out infinite}
 .hfc-cover{
-  width:100%;height:clamp(200px,30vw,300px);background-size:cover;background-position:center top;
+  width:100%;aspect-ratio:16/10;background-size:cover;background-position:center;
   background-color:var(--surface-2);
   transition:transform var(--dur-slow) var(--ease-out);
+  min-height:180px;max-height:300px;
 }
 .hero-featured-card:hover .hfc-cover{transform:scale(1.04)}
 .hfc-body{padding:var(--sp-5) var(--sp-6) var(--sp-6)}
@@ -1043,7 +1044,7 @@ button,input,textarea{font:inherit;color:inherit}
    分析器视图
    ═══════════════════════════════════════════════ */
 #page-analyzer{background:var(--bg)}
-.analyzer-container{flex:1;overflow-y:auto;padding:var(--sp-10) var(--sp-8) var(--sp-16);scroll-behavior:smooth;max-width:1400px;margin:0 auto;display:grid;grid-template-columns:5fr 7fr;gap:var(--sp-8);align-items:start}
+.analyzer-container{flex:1;overflow-y:auto;padding:var(--sp-12) var(--sp-10) var(--sp-16);scroll-behavior:smooth;max-width:1600px;margin:0 auto;display:grid;grid-template-columns:5fr 7fr;gap:var(--sp-10);align-items:start}
 .analyzer-container::-webkit-scrollbar{width:6px}
 .analyzer-container::-webkit-scrollbar-track{background:transparent}
 .analyzer-container::-webkit-scrollbar-thumb{background:var(--rule);border-radius:3px}
@@ -1063,9 +1064,9 @@ button,input,textarea{font:inherit;color:inherit}
 .analyzer-input{background:var(--surface);border:1px solid var(--rule-soft);border-radius:var(--r-lg);padding:var(--sp-6);transition:border-color var(--dur-base) ease;box-shadow:var(--shadow-sm)}
 .analyzer-input:focus-within{border-color:var(--ink);box-shadow:var(--shadow-md)}
 .analyzer-input textarea{
-  width:100%;min-height:240px;resize:vertical;
-  padding:var(--sp-5) var(--sp-6);border:1px solid var(--rule);border-radius:var(--r);
-  background:var(--bg);font-family:var(--serif);font-size:var(--fs-lg);line-height:2.1;letter-spacing:.02em;
+  width:100%;min-height:280px;resize:vertical;
+  padding:var(--sp-6) var(--sp-8);border:1px solid var(--rule);border-radius:var(--r);
+  background:var(--bg);font-family:var(--serif);font-size:var(--fs-xl);line-height:2.2;letter-spacing:.02em;
   outline:none;transition:all var(--dur-base) var(--ease-out);
 }
 .analyzer-input textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(156,52,52,.08)}
@@ -1604,6 +1605,14 @@ button,input,textarea{font:inherit;color:inherit}
   align-self:flex-end;
 }
 .feature-card:hover .fc-arrow{color:var(--accent);transform:translateX(4px)}
+.fc-tags{display:flex;flex-wrap:wrap;gap:var(--sp-2)}
+.fc-tags span{
+  font-family:var(--sans);font-size:11px;color:var(--muted);
+  padding:2px var(--sp-2);border:1px solid var(--rule-soft);border-radius:var(--r-full);
+  transition:all var(--dur-base) ease;
+}
+.fc-tags span:last-child{color:var(--accent);border-color:var(--accent);opacity:.7}
+.feature-card:hover .fc-tags span{border-color:var(--rule);color:var(--ink-soft)}
 @media(max-width:900px){
   .feature-grid{grid-template-columns:1fr}
   .feature-card{min-height:auto}
@@ -1919,16 +1928,17 @@ button,input,textarea{font:inherit;color:inherit}
         <div class="fg-title">从一卷书，到一个知识宇宙</div>
       </div>
       <div class="feature-grid">
-        <div class="feature-card" onclick="navigateTo('shelf')" tabindex="0" role="button" onkeydown="if(event.key==='Enter')navigateTo('shelf')">
+        <div class="feature-card" onclick="document.querySelector('.shelf-collection').scrollIntoView({behavior:'smooth'})" tabindex="0" role="button" onkeydown="if(event.key==='Enter')document.querySelector('.shelf-collection').scrollIntoView({behavior:'smooth'})">
           <div class="fc-num">01</div>
           <div class="fc-icon">
             <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 8h14v32H8z"/><path d="M26 8h14v32H26z"/><path d="M12 16h6M12 22h6M30 16h6M30 22h6"/></svg>
           </div>
           <div class="fc-body">
             <div class="fc-title">选一卷书</div>
-            <div class="fc-desc">83 部经典古籍，从《论语》到《山海经》，任选一卷开始阅读原文</div>
+            <div class="fc-desc">从《山海经》《世说新语》《天工开物》等经典开始，向下浏览藏书阁</div>
           </div>
-          <div class="fc-arrow">→</div>
+          <div class="fc-tags"><span>山海经</span><span>论语</span><span>庄子</span><span>诗经</span><span>+79</span></div>
+          <div class="fc-arrow">↓</div>
         </div>
         <div class="feature-card" onclick="navigateTo('graph')" tabindex="0" role="button" onkeydown="if(event.key==='Enter')navigateTo('graph')">
           <div class="fc-num">02</div>
