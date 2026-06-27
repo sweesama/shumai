@@ -372,10 +372,13 @@ button,input,textarea{font:inherit;color:inherit}
 }
 .hfc-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse 2s ease-in-out infinite}
 .hfc-cover{
-  width:100%;aspect-ratio:16/10;background-size:cover;background-position:center;
+  width:100%;display:block;
   background-color:var(--surface-2);
   transition:transform var(--dur-slow) var(--ease-out);
-  min-height:180px;max-height:300px;
+}
+.hfc-cover img{
+  width:100%;height:auto;display:block;
+  object-fit:contain;
 }
 .hero-featured-card:hover .hfc-cover{transform:scale(1.04)}
 .hfc-body{padding:var(--sp-5) var(--sp-6) var(--sp-6)}
@@ -1879,7 +1882,7 @@ button,input,textarea{font:inherit;color:inherit}
       <div class="shelf-hero-visual">
         <div class="hero-featured-card" onclick="openBook('山海经')" role="button" tabindex="0">
           <div class="hfc-tag"><span class="hfc-dot"></span>今日精选 · AI 已活化</div>
-          <div class="hfc-cover" style="background-image:url('assets/cover-shanhaijing.jpg')"></div>
+          <div class="hfc-cover"><img src="assets/cover-shanhaijing.jpg" alt="山海经封面" /></div>
           <div class="hfc-body">
             <div class="hfc-en">SHĀN HǍI JĪNG</div>
             <div class="hfc-title">山海经</div>
