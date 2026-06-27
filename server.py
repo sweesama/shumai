@@ -852,13 +852,36 @@ def api_status():
 
 # ============ 静态文件服务 ============
 
+@app.after_request
+def add_no_cache_headers(resp):
+    # 防止浏览器缓存 index.html / 静态资源，确保改动立即生效
+    if resp.status_code == 200 and (
+        request.path == "/" or
+        request.path.endswith(".html") or
+        request.path.endswith(".css") or
+        request.path.endswith(".js") or
+        request.path.endswith(".svg")
+    ):
+        resp.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+        resp.headers["Pragma"] = "no-cache"
+        resp.headers["Expires"] = "0"
+    return resp
+
 @app.route("/")
 def index():
-    return send_from_directory(os.path.dirname(__file__), "index.html")
+    resp = send_from_directory(os.path.dirname(__file__), "index.html")
+    resp.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    return resp
 
 @app.route("/<path:path>")
 def static_files(path):
-    return send_from_directory(os.path.dirname(__file__), path)
+    resp = send_from_directory(os.path.dirname(__file__), path)
+    # HTML/SVG 不缓存；其他静态资源缓存 1 小时
+    if path.endswith((".html", ".svg")):
+        resp.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    else:
+        resp.headers["Cache-Control"] = "public, max-age=3600"
+    return resp
 
 if __name__ == "__main__":
     # 本地开发：python server.py
