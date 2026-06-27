@@ -273,11 +273,15 @@ button,input,textarea{font:inherit;color:inherit}
    首页 · 编辑式 Hero
    ═══════════════════════════════════════════════ */
 .shelf-hero{
-  display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;
-  padding:0 var(--sp-8) var(--sp-16);text-align:left;
-  min-height:60vh;position:relative;
+  display:grid;grid-template-columns:1.15fr 0.85fr;align-items:center;
+  padding:0 var(--sp-8);min-height:78vh;gap:var(--sp-12);
+  position:relative;
 }
-.shelf-hero-content{position:relative;z-index:2;max-width:760px}
+.shelf-hero-content{position:relative;z-index:2}
+.shelf-hero-visual{
+  position:relative;z-index:2;
+  display:flex;flex-direction:column;gap:var(--sp-4);
+}
 .shelf-hero-eyebrow{
   font-family:var(--sans);font-size:10px;letter-spacing:.4em;
   color:var(--accent);text-transform:uppercase;font-weight:600;
@@ -344,6 +348,46 @@ button,input,textarea{font:inherit;color:inherit}
 }
 .shc-label{font-family:var(--sans);font-size:9px;letter-spacing:.3em;color:var(--muted);text-transform:uppercase;writing-mode:vertical-rl}
 .shc-line{width:1px;height:40px;background:var(--rule)}
+/* Hero 精选书籍卡 */
+.hero-featured-card{
+  background:var(--surface);border:1px solid var(--rule);
+  border-radius:var(--r);overflow:hidden;cursor:pointer;
+  transition:all var(--dur-slow) var(--ease-out);
+  animation:heroFadeUp 1s var(--ease-out) .6s both;
+  position:relative;
+}
+.hero-featured-card:hover{
+  transform:translateY(-6px);
+  border-color:var(--ink);
+  box-shadow:0 24px 48px -16px rgba(0,0,0,.18);
+}
+[data-theme="dark"] .hero-featured-card:hover{border-color:var(--gold);box-shadow:0 24px 48px -16px rgba(0,0,0,.5)}
+.hfc-tag{
+  position:absolute;top:var(--sp-3);left:var(--sp-3);z-index:2;
+  display:flex;align-items:center;gap:var(--sp-2);
+  background:rgba(255,255,255,.92);backdrop-filter:blur(8px);
+  padding:var(--sp-1) var(--sp-3);border-radius:var(--r-full);
+  font-family:var(--sans);font-size:10px;letter-spacing:.08em;
+  color:var(--ink);font-weight:600;
+}
+.hfc-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse 2s ease-in-out infinite}
+.hfc-cover{
+  width:100%;height:280px;background-size:cover;background-position:center;
+  background-color:var(--surface-2);
+  transition:transform var(--dur-slow) var(--ease-out);
+}
+.hero-featured-card:hover .hfc-cover{transform:scale(1.04)}
+.hfc-body{padding:var(--sp-5) var(--sp-6) var(--sp-6)}
+.hfc-en{font-family:var(--sans);font-size:10px;letter-spacing:.3em;color:var(--muted);margin-bottom:var(--sp-2)}
+.hfc-title{font-family:var(--serif);font-size:28px;font-weight:600;color:var(--ink);letter-spacing:.06em;margin-bottom:var(--sp-3)}
+.hfc-quote{font-family:var(--serif);font-size:14px;color:var(--ink-soft);line-height:1.8;letter-spacing:.04em;margin-bottom:var(--sp-4);padding-left:var(--sp-3);border-left:2px solid var(--accent)}
+.hfc-meta{display:flex;align-items:center;gap:var(--sp-2);flex-wrap:wrap;font-family:var(--sans);font-size:11px;color:var(--muted)}
+.hfc-sep{color:var(--rule)}
+.hero-visual-caption{
+  font-family:var(--sans);font-size:11px;color:var(--muted);
+  letter-spacing:.04em;text-align:center;
+  animation:heroFadeUp .8s var(--ease-out) .9s both;
+}
 .shelf-hero-cta::before{
   content:"";position:absolute;inset:0;background:var(--ink);
   transform:scaleX(0);transform-origin:left;transition:transform var(--dur-slow) var(--ease-out);
@@ -1511,6 +1555,9 @@ button,input,textarea{font:inherit;color:inherit}
   .detail-overlay{width:100%}
   .shelf-grid{grid-template-columns:1fr 1fr}
   .shelf-hero-corner{display:none}
+  .shelf-hero{grid-template-columns:1fr;min-height:auto;padding-top:var(--sp-16)}
+  .shelf-hero-visual{order:-1;margin-bottom:var(--sp-4)}
+  .hfc-cover{height:220px}
 }
 @media(max-width:640px){
   .mode-tab{padding:var(--sp-2) var(--sp-2);font-size:10px;letter-spacing:.04em}
@@ -1754,6 +1801,25 @@ button,input,textarea{font:inherit;color:inherit}
         <span>进入藏书阁</span>
         <span class="scroll-line"></span>
       </div>
+      </div>
+      <div class="shelf-hero-visual">
+        <div class="hero-featured-card" onclick="openBook('山海经')" role="button" tabindex="0">
+          <div class="hfc-tag"><span class="hfc-dot"></span>今日精选 · AI 已活化</div>
+          <div class="hfc-cover" style="background-image:url('assets/cover-shanhaijing.jpg')"></div>
+          <div class="hfc-body">
+            <div class="hfc-en">SHĀN HǍI JĪNG</div>
+            <div class="hfc-title">山海经</div>
+            <div class="hfc-quote">「青丘之山，有兽焉，其状如狐而九尾」</div>
+            <div class="hfc-meta">
+              <span>神话地理</span>
+              <span class="hfc-sep">·</span>
+              <span>23 个知识节点</span>
+              <span class="hfc-sep">·</span>
+              <span>28 段原文</span>
+            </div>
+          </div>
+        </div>
+        <div class="hero-visual-caption">点击卡片，进入山海经的知识图谱 →</div>
       </div>
       <div class="shelf-hero-corner">
         <span class="shc-label">EST. 2026</span>
