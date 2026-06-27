@@ -285,6 +285,8 @@ button,input,textarea{font:inherit;color:inherit}
   animation:heroFadeUp .8s var(--ease-out) .2s both;
   display:flex;align-items:center;gap:var(--sp-3);
 }
+.eyebrow-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
 .shelf-hero-eyebrow::before{content:"";display:block;width:32px;height:1px;background:var(--accent);opacity:.5}
 .shelf-hero h1{
   font-family:var(--serif);font-size:clamp(88px,16vw,200px);font-weight:100;
@@ -326,6 +328,22 @@ button,input,textarea{font:inherit;color:inherit}
   background:transparent;transition:all var(--dur-base) var(--ease-out);
   position:relative;overflow:hidden;
 }
+.shelf-hero-stats{
+  display:flex;align-items:center;gap:var(--sp-5);
+  margin-top:var(--sp-8);margin-bottom:var(--sp-2);
+  animation:heroFadeUp .8s var(--ease-out) .8s both;
+}
+.hero-stat{display:flex;flex-direction:column;gap:2px}
+.hs-num{font-family:var(--serif);font-size:32px;font-weight:200;color:var(--ink);line-height:1}
+.hs-label{font-family:var(--sans);font-size:10px;letter-spacing:.2em;color:var(--muted);text-transform:uppercase}
+.hero-stat-divider{width:1px;height:32px;background:var(--rule)}
+.shelf-hero-corner{
+  position:absolute;right:var(--sp-8);top:50%;transform:translateY(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:var(--sp-3);
+  opacity:.4;
+}
+.shc-label{font-family:var(--sans);font-size:9px;letter-spacing:.3em;color:var(--muted);text-transform:uppercase;writing-mode:vertical-rl}
+.shc-line{width:1px;height:40px;background:var(--rule)}
 .shelf-hero-cta::before{
   content:"";position:absolute;inset:0;background:var(--ink);
   transform:scaleX(0);transform-origin:left;transition:transform var(--dur-slow) var(--ease-out);
@@ -346,37 +364,48 @@ button,input,textarea{font:inherit;color:inherit}
    书籍展示 · Editorial Cards
    ═══════════════════════════════════════════════ */
 .shelf-collection{
-  padding:var(--sp-6) var(--sp-8) var(--sp-16);
-  max-width:1200px;margin:0 auto;width:100%;
+  padding:var(--sp-12) var(--sp-8) var(--sp-16);
+  max-width:1280px;margin:0 auto;width:100%;
 }
-.shelf-section-header{display:none} /* remove section header, let cards speak */
+.shelf-collection-eyebrow{
+  font-family:var(--sans);font-size:10px;letter-spacing:.4em;
+  color:var(--accent);text-transform:uppercase;font-weight:600;
+  margin-bottom:var(--sp-3);display:flex;align-items:center;gap:var(--sp-3);
+}
+.shelf-collection-eyebrow::after{content:"";flex:1;height:1px;background:var(--rule-soft)}
+.shelf-collection-title{
+  font-family:var(--serif);font-size:var(--fs-4xl);font-weight:200;
+  color:var(--ink);letter-spacing:.04em;margin-bottom:var(--sp-10);
+}
+.shelf-section-header{display:none}
 .shelf-grid{
   display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:var(--sp-3);
+  grid-template-columns:repeat(3,1fr);
+  gap:var(--sp-4);
 }
 .shelf-card{
   border:none;border-radius:var(--r);
-  padding:var(--sp-8);cursor:pointer;
+  padding:var(--sp-6);cursor:pointer;
   transition:all var(--dur-slow) var(--ease-out);
   position:relative;overflow:hidden;
-  background:transparent;
+  background:var(--surface);
   display:flex;flex-direction:column;
   border:1px solid var(--rule-soft);
-  min-height:280px;
+  min-height:240px;
 }
-.shelf-card::before{display:none} /* remove top color bar */
-.shelf-card::after{display:none} /* remove gradient blob */
+.shelf-card::before{display:none}
+.shelf-card::after{display:none}
 .shelf-card:hover{
-  transform:none;
-  border-color:var(--rule);
-  background:var(--surface);
+  transform:translateY(-4px);
+  border-color:var(--ink);
+  box-shadow:0 12px 32px -12px rgba(0,0,0,.12);
 }
+[data-theme="dark"] .shelf-card:hover{box-shadow:0 12px 32px -12px rgba(0,0,0,.4);border-color:var(--gold)}
 .shelf-card:active{transform:scale(.995)}
-/* 首卡片·跨越两列 */
+/* 首卡片·跨越全部列 */
 .shelf-card:first-child{
   grid-column:1 / -1;
-  min-height:380px;
+  min-height:420px;
   display:flex;flex-direction:column;
   padding:0;
   border-color:var(--rule);
@@ -1480,7 +1509,8 @@ button,input,textarea{font:inherit;color:inherit}
 @media(max-width:900px){
   .graph-search{display:none}
   .detail-overlay{width:100%}
-  .shelf-grid{grid-template-columns:1fr}
+  .shelf-grid{grid-template-columns:1fr 1fr}
+  .shelf-hero-corner{display:none}
 }
 @media(max-width:640px){
   .mode-tab{padding:var(--sp-2) var(--sp-2);font-size:10px;letter-spacing:.04em}
@@ -1621,16 +1651,28 @@ button,input,textarea{font:inherit;color:inherit}
    ═══════════════════════════════════════════════ */
 .marquee-band{
   overflow:hidden;white-space:nowrap;
-  padding:var(--sp-3) 0;
-  border-top:1px solid var(--rule-soft);
-  border-bottom:1px solid var(--rule-soft);
-  font-family:var(--serif);font-size:var(--fs-lg);color:var(--muted-2);
-  letter-spacing:.15em;line-height:1.6;
+  padding:var(--sp-5) 0;
+  border-top:1px solid var(--ink);
+  border-bottom:1px solid var(--ink);
+  font-family:var(--serif);font-size:22px;color:var(--ink-soft);
+  letter-spacing:.2em;line-height:1.4;
+  background:var(--surface);
+  position:relative;
 }
+[data-theme="dark"] .marquee-band{border-color:var(--rule);background:rgba(255,255,255,.02)}
+.marquee-band::before,.marquee-band::after{
+  content:"";position:absolute;top:0;bottom:0;width:120px;z-index:2;pointer-events:none;
+}
+.marquee-band::before{left:0;background:linear-gradient(90deg,var(--surface),transparent)}
+.marquee-band::after{right:0;background:linear-gradient(270deg,var(--surface),transparent)}
+[data-theme="dark"] .marquee-band::before{background:linear-gradient(90deg,rgba(22,20,15,1),transparent)}
+[data-theme="dark"] .marquee-band::after{background:linear-gradient(270deg,rgba(22,20,15,1),transparent)}
 .marquee-track{
-  display:inline-flex;gap:var(--sp-12);
-  animation:marqueeScroll 60s linear infinite;
+  display:inline-flex;gap:var(--sp-16);
+  animation:marqueeScroll 50s linear infinite;
 }
+.marquee-track span{display:inline-flex;align-items:center;gap:var(--sp-16)}
+.marquee-track span::after{content:"❖";color:var(--accent);font-size:14px;opacity:.6}
 .marquee-track:hover{animation-play-state:paused}
 @keyframes marqueeScroll{
   0%{transform:translateX(0)}
@@ -1690,7 +1732,7 @@ button,input,textarea{font:inherit;color:inherit}
     <div class="shelf-hero">
       <canvas class="ink-canvas" id="inkCanvas"></canvas>
       <div class="shelf-hero-content">
-      <div class="shelf-hero-eyebrow">Classical Chinese Reading Platform</div>
+      <div class="shelf-hero-eyebrow"><span class="eyebrow-dot"></span>Classical Chinese Reading Platform</div>
       <h1><span class="hero-char">书</span><span class="hero-char">脉</span></h1>
       <div class="shelf-hero-subtitle">Shū Mài · AI Workbench</div>
       <div class="shelf-hero-desc" id="heroDesc">
@@ -1701,10 +1743,22 @@ button,input,textarea{font:inherit;color:inherit}
         Millennial classics, breathing again —<br>
         AI revitalizes ancient texts, making every scroll come alive anew.
       </div>
+      <div class="shelf-hero-stats">
+        <div class="hero-stat"><span class="hs-num">83</span><span class="hs-label">典籍</span></div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat"><span class="hs-num">9</span><span class="hs-label">AI 活化</span></div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat"><span class="hs-num">∞</span><span class="hs-label">知识脉络</span></div>
+      </div>
       <div class="shelf-hero-cta" role="button" tabindex="0" aria-label="浏览典籍收藏" onclick="document.querySelector('.shelf-collection').scrollIntoView({behavior:'smooth'})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}">
-        <span>Explore Collection</span>
+        <span>进入藏书阁</span>
         <span class="scroll-line"></span>
       </div>
+      </div>
+      <div class="shelf-hero-corner">
+        <span class="shc-label">EST. 2026</span>
+        <span class="shc-line"></span>
+        <span class="shc-label">卷一 · 书脉</span>
       </div>
     </div>
     <div class="marquee-band">
@@ -1729,6 +1783,8 @@ button,input,textarea{font:inherit;color:inherit}
 </div>
     <!-- 书籍展示区 -->
     <div class="shelf-collection">
+      <div class="shelf-collection-eyebrow">藏 · 书 · 阁</div>
+      <div class="shelf-collection-title">八十三卷，于此陈列</div>
       <div class="shelf-grid" id="shelfGrid"></div>
     </div>
     <!-- AI 古籍搜索区 -->
