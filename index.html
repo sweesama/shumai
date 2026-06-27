@@ -293,7 +293,7 @@ button,input,textarea{font:inherit;color:inherit}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
 .shelf-hero-eyebrow::before{content:"";display:block;width:32px;height:1px;background:var(--accent);opacity:.5}
 .shelf-hero h1{
-  font-family:var(--serif);font-size:clamp(88px,16vw,200px);font-weight:100;
+  font-family:var(--serif);font-size:clamp(72px,12vw,160px);font-weight:100;
   color:var(--ink);letter-spacing:.04em;line-height:.85;
   margin-bottom:var(--sp-6);
   animation:heroFadeUp 1s var(--ease-out) .35s both;
@@ -372,7 +372,7 @@ button,input,textarea{font:inherit;color:inherit}
 }
 .hfc-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse 2s ease-in-out infinite}
 .hfc-cover{
-  width:100%;height:280px;background-size:cover;background-position:center;
+  width:100%;height:clamp(180px,28vw,280px);background-size:cover;background-position:center;
   background-color:var(--surface-2);
   transition:transform var(--dur-slow) var(--ease-out);
 }
@@ -446,29 +446,27 @@ button,input,textarea{font:inherit;color:inherit}
 }
 [data-theme="dark"] .shelf-card:hover{box-shadow:0 12px 32px -12px rgba(0,0,0,.4);border-color:var(--gold)}
 .shelf-card:active{transform:scale(.995)}
-/* 首卡片·跨越全部列 */
+/* 首卡片·与其他卡片一致（不再跨列） */
 .shelf-card:first-child{
-  grid-column:1 / -1;
-  min-height:420px;
+  min-height:240px;
   display:flex;flex-direction:column;
-  padding:0;
+  padding:var(--sp-6);
   border-color:var(--rule);
   background:var(--surface);
   overflow:hidden;
 }
-.shelf-card:first-child > div:last-child{
-  padding:var(--sp-8) var(--sp-10);
-  display:flex;flex-direction:column;justify-content:flex-end;flex:1;
-}
 [data-theme="dark"] .shelf-card:first-child{background:var(--surface)}
 /* 卡片滚动入场 */
-.shelf-card{opacity:0;transform:translateY(30px)}
+.shelf-card{opacity:0;transform:translateY(40px) scale(.96)}
 .shelf-card.revealed{
   opacity:1;transform:none;
-  transition:opacity .7s var(--ease-out),transform .7s var(--ease-out);
+  transition:opacity .8s var(--ease-out),transform .8s var(--ease-spring);
 }
-.shelf-card.revealed:nth-child(2){transition-delay:.12s}
-.shelf-card.revealed:nth-child(3){transition-delay:.24s}
+.shelf-card.revealed:nth-child(2){transition-delay:.1s}
+.shelf-card.revealed:nth-child(3){transition-delay:.2s}
+.shelf-card.revealed:nth-child(4){transition-delay:.3s}
+.shelf-card.revealed:nth-child(5){transition-delay:.4s}
+.shelf-card.revealed:nth-child(6){transition-delay:.5s}
 
 .shelf-card-index{display:none} /* remove No.01 labels */
 /* === 封面海报 === */
@@ -496,6 +494,17 @@ button,input,textarea{font:inherit;color:inherit}
 }
 .shelf-card:hover .shelf-card-cover{transform:scale(1.02);filter:grayscale(.05) contrast(1.15) brightness(.95) saturate(.7)}
 .shelf-card:hover .shelf-card-cover::after{opacity:.3}
+/* 无封面图·书名首字 glyph 占位 */
+.shelf-card-cover.is-glyph{filter:none}
+.shelf-card-cover.is-glyph::before,
+.shelf-card-cover.is-glyph::after{display:none}
+.shelf-card:hover .shelf-card-cover.is-glyph{filter:none}
+.shelf-card-glyph{
+  position:absolute;inset:0;display:grid;place-items:center;
+  font-family:var(--serif);font-weight:700;color:var(--card-accent);
+  font-size:clamp(64px,9vw,112px);line-height:1;letter-spacing:0;
+  z-index:3;pointer-events:none;
+}
 
 /* 海报排版层 */
 .shelf-card-poster{
@@ -521,27 +530,11 @@ button,input,textarea{font:inherit;color:inherit}
   font-family:var(--sans);font-size:10px;letter-spacing:.18em;
   color:rgba(255,255,255,.65);text-transform:uppercase;font-weight:400;
 }
-/* 首卡片海报特殊样式 */
-.shelf-card:first-child .shelf-card-cover{
-  height:100%;min-height:340px;
-  margin-bottom:0;border-radius:0;
-}
-.shelf-card:first-child .shelf-card-poster-title{
-  font-size:clamp(36px,5vw,56px);font-weight:800;
-}
-.shelf-card:first-child .shelf-card-poster-tag{
-  font-size:10px;padding:4px 12px;
-}
-.shelf-card:first-child .shelf-card-poster{
-  padding:var(--sp-8) var(--sp-10);
-}
-.shelf-card:hover:first-child .shelf-card-cover{transform:scale(1.03)}
 
 .shelf-card h3{
   font-family:var(--serif);font-size:clamp(24px,3vw,32px);font-weight:600;
   color:var(--ink);margin-bottom:var(--sp-2);letter-spacing:.04em;
 }
-.shelf-card:first-child h3{font-size:clamp(28px,3.5vw,40px)}
 .shelf-card .shelf-card-en{
   font-family:var(--sans);font-size:10px;letter-spacing:.2em;
   color:var(--muted-2);text-transform:uppercase;font-weight:400;
@@ -1050,11 +1043,11 @@ button,input,textarea{font:inherit;color:inherit}
    分析器视图
    ═══════════════════════════════════════════════ */
 #page-analyzer{background:var(--bg)}
-.analyzer-container{flex:1;overflow-y:auto;padding:var(--sp-10) var(--sp-8);scroll-behavior:smooth}
+.analyzer-container{flex:1;overflow-y:auto;padding:var(--sp-10) var(--sp-8);scroll-behavior:smooth;display:grid;grid-template-columns:0.8fr 1.2fr;gap:var(--sp-8);max-width:1280px;margin:0 auto;align-items:start}
 .analyzer-container::-webkit-scrollbar{width:6px}
 .analyzer-container::-webkit-scrollbar-track{background:transparent}
 .analyzer-container::-webkit-scrollbar-thumb{background:var(--rule);border-radius:3px}
-.analyzer-header{max-width:680px;margin:0 auto var(--sp-6)}
+.analyzer-header{margin-bottom:var(--sp-6)}
 .analyzer-header .ah-eyebrow{
   font-family:var(--sans);font-size:var(--fs-xs);letter-spacing:.3em;
   color:var(--gold);text-transform:uppercase;font-weight:600;margin-bottom:var(--sp-1);
@@ -1065,7 +1058,7 @@ button,input,textarea{font:inherit;color:inherit}
 }
 .analyzer-header h2::after{content:"";position:absolute;left:0;bottom:0;width:40px;height:2px;background:linear-gradient(90deg,var(--accent),transparent);border-radius:1px}
 .analyzer-header .ah-desc{font-family:var(--sans);font-size:var(--fs-sm);color:var(--muted);margin-top:var(--sp-2);line-height:1.7}
-.analyzer-input{max-width:680px;margin:0 auto var(--sp-6)}
+.analyzer-input{margin-bottom:var(--sp-6)}
 .analyzer-input textarea{
   width:100%;min-height:120px;resize:vertical;
   padding:var(--sp-4) var(--sp-5);border:1px solid var(--rule);border-radius:var(--r-lg);
@@ -1078,7 +1071,8 @@ button,input,textarea{font:inherit;color:inherit}
 .analyzer-actions{display:flex;gap:var(--sp-3);margin-top:var(--sp-3);align-items:center}
 .analyzer-actions .hint{font-family:var(--sans);font-size:var(--fs-sm);color:var(--muted);margin-left:auto}
 
-.analyzer-results{max-width:680px;margin:0 auto}
+.analyzer-right{min-height:400px}
+.analyzer-left{}
 .result-status{
   display:flex;align-items:center;gap:var(--sp-3);padding:var(--sp-3) var(--sp-4);
   border-radius:var(--r);margin-bottom:var(--sp-4);
@@ -1558,6 +1552,7 @@ button,input,textarea{font:inherit;color:inherit}
   .shelf-hero{grid-template-columns:1fr;min-height:auto;padding-top:var(--sp-16)}
   .shelf-hero-visual{order:-1;margin-bottom:var(--sp-4)}
   .hfc-cover{height:220px}
+  .analyzer-container{grid-template-columns:1fr}
 }
 @media(max-width:640px){
   .mode-tab{padding:var(--sp-2) var(--sp-2);font-size:10px;letter-spacing:.04em}
@@ -1565,7 +1560,6 @@ button,input,textarea{font:inherit;color:inherit}
   .shelf-hero{padding:0 var(--sp-4) var(--sp-10);min-height:50vh}
   .shelf-collection{padding:var(--sp-12) var(--sp-4) var(--sp-10)}
   .shelf-grid{grid-template-columns:1fr}
-  .shelf-card:first-child{min-height:300px}
   .shelf-card-cover{height:200px}
   .shelf-card-poster-title{font-size:24px}
   .shelf-card-poster{padding:var(--sp-3) var(--sp-4)}
@@ -1953,25 +1947,29 @@ button,input,textarea{font:inherit;color:inherit}
 <!-- ════ 文本分析页 ════ -->
 <div class="page" id="page-analyzer">
   <div class="analyzer-container">
-    <div class="analyzer-header">
-      <div class="ah-eyebrow">AI Text Analysis</div>
-      <h2>文本分析</h2>
-      <div class="ah-desc">粘贴任意文言文段落，AI 将自动提取实体、翻译并生成深度解读</div>
-    </div>
-    <div class="analyzer-input">
-      <textarea id="analyzerInput" placeholder="在此粘贴古籍原文进行 AI 分析...&#10;&#10;支持任意文言文段落，AI 会自动提取实体、翻译为白话文并生成深度解读。" style="min-height:160px"></textarea>
-      <div class="analyzer-actions">
-        <button class="btn btn-primary btn-sm" id="doAnalyzeBtn"><span class="ico"><svg viewBox="0 0 24 24"><path d="M5 3l14 9-14 9z"/></svg></span>AI 分析</button>
-        <button class="btn btn-ghost btn-sm" id="loadSampleBtn"><span class="ico"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></span>载入示例</button>
-        <span class="hint">支持任意文言文段落</span>
+    <div class="analyzer-left">
+      <div class="analyzer-header">
+        <div class="ah-eyebrow">AI Text Analysis</div>
+        <h2>文本分析</h2>
+        <div class="ah-desc">粘贴任意文言文段落，AI 将自动提取实体、翻译并生成深度解读</div>
+      </div>
+      <div class="analyzer-input">
+        <textarea id="analyzerInput" placeholder="在此粘贴古籍原文进行 AI 分析...&#10;&#10;支持任意文言文段落，AI 会自动提取实体、翻译为白话文并生成深度解读。" style="min-height:160px"></textarea>
+        <div class="analyzer-actions">
+          <button class="btn btn-primary btn-sm" id="doAnalyzeBtn"><span class="ico"><svg viewBox="0 0 24 24"><path d="M5 3l14 9-14 9z"/></svg></span>AI 分析</button>
+          <button class="btn btn-ghost btn-sm" id="loadSampleBtn"><span class="ico"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></span>载入示例</button>
+          <span class="hint">支持任意文言文段落</span>
+        </div>
       </div>
     </div>
-    <div class="analyzer-results" id="analyzerResults">
-      <div class="analyzer-placeholder">
-        <div style="font-size:32px;margin-bottom:var(--sp-3);opacity:.3">📜</div>
-        <div style="color:var(--muted);font-size:var(--fs-sm);line-height:1.8;text-align:center">
-          粘贴文言文段落，点击"AI 分析"<br>
-          AI 将自动提取实体、翻译并生成深度解读
+    <div class="analyzer-right">
+      <div class="analyzer-results" id="analyzerResults">
+        <div class="analyzer-placeholder">
+          <div style="font-size:32px;margin-bottom:var(--sp-3);opacity:.3">📜</div>
+          <div style="color:var(--muted);font-size:var(--fs-sm);line-height:1.8;text-align:center">
+            粘贴文言文段落，点击"AI 分析"<br>
+            AI 将自动提取实体、翻译并生成深度解读
+          </div>
         </div>
       </div>
     </div>
@@ -4128,18 +4126,18 @@ function renderShelf(){
     const enName=enNames[key]||(isAIGenerated?"AI Revived":"");
     const metaText=isAIGenerated?(b.metaObj?.dynasty||"AI 活化"):b.meta;
     const summaryText=isAIGenerated?(b.metaObj?.summary||b.summary||""):b.summary;
-    const glyph=b.glyph||(isAIGenerated?"書":"");
+    const glyph=key.charAt(0);
     const coverMap={"山海经":"assets/cover-shanhai.jpg","世说新语":"assets/cover-shishuo.jpg","天工开物":"assets/cover-tiangong.jpg"};
     const coverImg=coverMap[key]||"";
     const dynastyMap={"山海经":"先秦","世说新语":"南朝宋","天工开物":"明代"};
     const posterTag=dynastyMap[key]||(isAIGenerated?(b.metaObj?.dynasty||"古籍"):"古籍");
     return `<div class="shelf-card" tabindex="0" role="button" aria-label="打开《${key}》" style="--card-accent:${colors[key]||'var(--gold)'};--card-accent-bg:${colorBgs[key]||'rgba(154,115,48,.08)'}" onclick="openBook('${key}')">
-      <div class="shelf-card-cover" ${coverImg?`style="background-image:url('${coverImg}')"`:''}>
-        <div class="shelf-card-poster">
+      <div class="shelf-card-cover${coverImg?'':' is-glyph'}" ${coverImg?`style="background-image:url('${coverImg}')"`:`style="background:var(--card-accent-bg)"`}>
+        ${coverImg?`<div class="shelf-card-poster">
           <div class="shelf-card-poster-tag">${posterTag}</div>
           <div class="shelf-card-poster-title">${key}</div>
           <div class="shelf-card-poster-en">${enName}</div>
-        </div>
+        </div>`:`<div class="shelf-card-glyph">${glyph}</div>`}
       </div>
       <div>
         <h3>《${key}》</h3>
