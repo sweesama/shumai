@@ -2,7 +2,12 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#eae7e0" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#16140f" media="(prefers-color-scheme: dark)">
+<meta name="description" content="书脉 AI · 古籍阅读工作台 —— 以 AI 活化千年经典，让每一卷书再次被阅读。" />
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+<link rel="apple-touch-icon" href="assets/favicon.svg" />
 <title>书脉 AI · 古籍阅读工作台</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;600;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -1466,6 +1471,40 @@ button,input,textarea{font:inherit;color:inherit}
   .shelf-section-header{flex-direction:column;align-items:flex-start}
   .shelf-footer{flex-direction:column;gap:var(--sp-3);text-align:center}
   .topbar{padding:0 var(--sp-4)}
+  /* —— 增强移动端适配 —— */
+  .shelf-hero h1{font-size:clamp(64px,20vw,96px)}
+  .shelf-hero-desc{font-size:14px;line-height:1.85}
+  .shelf-hero-desc-en{font-size:11px}
+  .shelf-hero-subtitle{letter-spacing:.28em}
+  .reader-text{font-size:17px;padding:0 var(--sp-2)}
+  .reader-toolbar{gap:var(--sp-1)}
+  .analyzer-input textarea{font-size:14px}
+  .notes-panel{width:100%;max-width:100vw}
+  .detail-overlay{width:100%;height:100%;max-height:100vh;border-radius:0}
+  .detail-header{flex-direction:column;align-items:flex-start;gap:var(--sp-2)}
+  .graph-controls{flex-wrap:wrap;gap:var(--sp-2)}
+  .ai-search-box{max-width:100%;padding:0 var(--sp-2)}
+  .ai-result-item{flex-direction:column;align-items:flex-start;gap:var(--sp-2)}
+  .ai-result-action{align-self:flex-start}
+  .modal{width:96vw;height:85vh}
+  .toolbar-left,.toolbar-right{gap:var(--sp-1)}
+  .toolbar-right .btn{padding:var(--sp-1) var(--sp-2)}
+}
+@media(max-width:480px){
+  .topbar{height:50px;padding:0 var(--sp-3)}
+  .page{top:50px}
+  .mode-tabs{gap:0}
+  .mode-tab{padding:var(--sp-2) var(--sp-1);font-size:9px;letter-spacing:.02em}
+  .shelf-hero{min-height:36vh;padding:0 var(--sp-3) var(--sp-5)}
+  .shelf-hero h1{font-size:clamp(56px,22vw,80px);letter-spacing:.04em}
+  .shelf-hero-desc{font-size:13px;max-width:100%}
+  .shelf-hero-cta{font-size:10px;padding:var(--sp-3) var(--sp-5)}
+  .shelf-collection{padding:var(--sp-10) var(--sp-3) var(--sp-8)}
+  .shelf-card-cover{height:170px}
+  .shelf-card-poster-title{font-size:20px}
+  .reader-text{font-size:16px;line-height:2}
+  .analyzer-results,.analyzer-input,.analyzer-header{padding:0 var(--sp-1)}
+  .modal{width:100vw;height:100vh;border-radius:0}
 }
 
 /* ═══════════════════════════════════════════════
