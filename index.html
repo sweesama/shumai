@@ -372,7 +372,7 @@ button,input,textarea{font:inherit;color:inherit}
 }
 .hfc-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse 2s ease-in-out infinite}
 .hfc-cover{
-  width:100%;height:clamp(180px,28vw,280px);background-size:cover;background-position:center;
+  width:100%;height:clamp(200px,30vw,300px);background-size:cover;background-position:center top;
   background-color:var(--surface-2);
   transition:transform var(--dur-slow) var(--ease-out);
 }
@@ -1043,35 +1043,36 @@ button,input,textarea{font:inherit;color:inherit}
    分析器视图
    ═══════════════════════════════════════════════ */
 #page-analyzer{background:var(--bg)}
-.analyzer-container{flex:1;overflow-y:auto;padding:var(--sp-10) var(--sp-8);scroll-behavior:smooth;display:grid;grid-template-columns:0.8fr 1.2fr;gap:var(--sp-8);max-width:1280px;margin:0 auto;align-items:start}
+.analyzer-container{flex:1;overflow-y:auto;padding:var(--sp-10) var(--sp-8) var(--sp-16);scroll-behavior:smooth;max-width:1280px;margin:0 auto}
 .analyzer-container::-webkit-scrollbar{width:6px}
 .analyzer-container::-webkit-scrollbar-track{background:transparent}
 .analyzer-container::-webkit-scrollbar-thumb{background:var(--rule);border-radius:3px}
-.analyzer-header{margin-bottom:var(--sp-6)}
+.analyzer-header{margin-bottom:var(--sp-8);text-align:center;max-width:680px;margin-left:auto;margin-right:auto}
 .analyzer-header .ah-eyebrow{
   font-family:var(--sans);font-size:var(--fs-xs);letter-spacing:.3em;
-  color:var(--gold);text-transform:uppercase;font-weight:600;margin-bottom:var(--sp-1);
+  color:var(--gold);text-transform:uppercase;font-weight:600;margin-bottom:var(--sp-2);
+  display:flex;align-items:center;justify-content:center;gap:var(--sp-3);
 }
+.analyzer-header .ah-eyebrow::before,.analyzer-header .ah-eyebrow::after{content:"";display:block;width:24px;height:1px;background:var(--gold);opacity:.4}
 .analyzer-header h2{
-  font-family:var(--serif);font-size:var(--fs-4xl);font-weight:800;color:var(--ink);
-  letter-spacing:.04em;position:relative;padding-bottom:var(--sp-3);line-height:1;
+  font-family:var(--serif);font-size:var(--fs-5xl);font-weight:200;color:var(--ink);
+  letter-spacing:.06em;position:relative;padding-bottom:var(--sp-4);line-height:1;
 }
-.analyzer-header h2::after{content:"";position:absolute;left:0;bottom:0;width:40px;height:2px;background:linear-gradient(90deg,var(--accent),transparent);border-radius:1px}
-.analyzer-header .ah-desc{font-family:var(--sans);font-size:var(--fs-sm);color:var(--muted);margin-top:var(--sp-2);line-height:1.7}
-.analyzer-input{margin-bottom:var(--sp-6)}
+.analyzer-header h2::after{content:"";position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:48px;height:2px;background:linear-gradient(90deg,var(--accent),transparent);border-radius:1px}
+.analyzer-header .ah-desc{font-family:var(--serif);font-size:var(--fs-lg);color:var(--ink-soft);margin-top:var(--sp-4);line-height:1.9}
+.analyzer-input{margin-bottom:var(--sp-8);background:var(--surface);border:1px solid var(--rule-soft);border-radius:var(--r-lg);padding:var(--sp-6);transition:border-color var(--dur-base) ease;box-shadow:var(--shadow-sm)}
+.analyzer-input:focus-within{border-color:var(--ink);box-shadow:var(--shadow-md)}
 .analyzer-input textarea{
-  width:100%;min-height:120px;resize:vertical;
-  padding:var(--sp-4) var(--sp-5);border:1px solid var(--rule);border-radius:var(--r-lg);
-  background:var(--surface);font-family:var(--serif);font-size:var(--fs-lg);line-height:1.9;letter-spacing:.02em;
+  width:100%;min-height:140px;resize:vertical;
+  padding:var(--sp-4) var(--sp-5);border:1px solid var(--rule);border-radius:var(--r);
+  background:var(--bg);font-family:var(--serif);font-size:var(--fs-lg);line-height:2;letter-spacing:.02em;
   outline:none;transition:all var(--dur-base) var(--ease-out);
-  box-shadow:var(--shadow-xs),inset 0 1px 3px rgba(26,22,18,.03);
 }
-.analyzer-input textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(156,52,52,.08),var(--shadow-xs)}
+.analyzer-input textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(156,52,52,.08)}
 .analyzer-input textarea::placeholder{color:var(--muted-2);font-style:italic}
-.analyzer-actions{display:flex;gap:var(--sp-3);margin-top:var(--sp-3);align-items:center}
+.analyzer-actions{display:flex;gap:var(--sp-3);margin-top:var(--sp-4);align-items:center}
 .analyzer-actions .hint{font-family:var(--sans);font-size:var(--fs-sm);color:var(--muted);margin-left:auto}
-
-.analyzer-right{min-height:400px}
+.analyzer-right{min-height:300px}
 .analyzer-left{}
 .result-status{
   display:flex;align-items:center;gap:var(--sp-3);padding:var(--sp-3) var(--sp-4);
@@ -1552,7 +1553,6 @@ button,input,textarea{font:inherit;color:inherit}
   .shelf-hero{grid-template-columns:1fr;min-height:auto;padding-top:var(--sp-16)}
   .shelf-hero-visual{order:-1;margin-bottom:var(--sp-4)}
   .hfc-cover{height:220px}
-  .analyzer-container{grid-template-columns:1fr}
 }
 @media(max-width:640px){
   .mode-tab{padding:var(--sp-2) var(--sp-2);font-size:10px;letter-spacing:.04em}
@@ -1947,7 +1947,6 @@ button,input,textarea{font:inherit;color:inherit}
 <!-- ════ 文本分析页 ════ -->
 <div class="page" id="page-analyzer">
   <div class="analyzer-container">
-    <div class="analyzer-left">
       <div class="analyzer-header">
         <div class="ah-eyebrow">AI Text Analysis</div>
         <h2>文本分析</h2>
@@ -1961,8 +1960,6 @@ button,input,textarea{font:inherit;color:inherit}
           <span class="hint">支持任意文言文段落</span>
         </div>
       </div>
-    </div>
-    <div class="analyzer-right">
       <div class="analyzer-results" id="analyzerResults">
         <div class="analyzer-placeholder">
           <div style="font-size:32px;margin-bottom:var(--sp-3);opacity:.3">📜</div>
@@ -1971,8 +1968,7 @@ button,input,textarea{font:inherit;color:inherit}
             AI 将自动提取实体、翻译并生成深度解读
           </div>
         </div>
-      </div>
-    </div>
+  </div>
   </div>
 </div>
 
@@ -3557,6 +3553,8 @@ async function aiSearchBooks(){
 
 // 加载并 AI 处理古籍（流式渐进版）
 async function aiLoadBook(urn, title){
+  state.isGenerating = true;
+  state.generatingBook = title;
   const overlay = $("aiProcessingOverlay");
   const textEl = $("aiProcessingText");
   const subEl = $("aiProcessingSub");
@@ -3763,6 +3761,8 @@ async function aiLoadBook(urn, title){
           }
 
           else if(msg.type === "done"){
+            state.isGenerating = false;
+            els.genOverlay.classList.remove("show");
             updateProgress("处理完成！", `已生成 ${detailCount} 个实体的深度注释`, [
               {label: "获取原文", status: "done"},
               {label: "AI 实体提取", status: "done"},
@@ -3788,6 +3788,8 @@ async function aiLoadBook(urn, title){
     }
 
   } catch(e){
+    state.isGenerating = false;
+    els.genOverlay.classList.remove("show");
     console.error("[aiLoadBook]", e);
     textEl.textContent = "处理失败";
     subEl.textContent = e.message || "请确认后端服务已启动";
@@ -4102,11 +4104,15 @@ function navigateTo(page){
       loadBook(state.currentBook);
     }else{
       setTimeout(renderGraph,50);
+      if(state.isGenerating && state.currentBook===state.generatingBook){
+        els.genOverlay.classList.add("show");
+      }
     }
   }
   if(page==="reader")renderReader();
   if(page==="analyzer"&&!state.analyzed)renderAnalyzerEmpty();
   if(page==="notes")renderNotesPage();
+  if(page==="shelf")renderShelf();
   if(page!=="graph")closeDetail();
 }
 
