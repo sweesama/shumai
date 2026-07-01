@@ -23,6 +23,20 @@ DEEPSEEK_MODEL = "deepseek-chat"  # DeepSeek V4-Flash 对应的模型名
 CACHE_DIR = os.path.join(os.path.dirname(__file__), "cache")
 os.makedirs(CACHE_DIR, exist_ok=True)
 
+# 启动时从 seed 目录恢复缓存（Volume 挂载可能导致 cache 目录为空）
+SEED_DIR = os.path.join(os.path.dirname(__file__), "cache_seed")
+if os.path.isdir(SEED_DIR):
+    seed_files = [f for f in os.listdir(SEED_DIR) if f.endswith('.json')]
+    cache_files = [f for f in os.listdir(CACHE_DIR) if f.endswith('.json')] if os.path.isdir(CACHE_DIR) else []
+    if len(cache_files) < len(seed_files):
+        import shutil
+        for f in seed_files:
+            src = os.path.join(SEED_DIR, f)
+            dst = os.path.join(CACHE_DIR, f)
+            if not os.path.exists(dst):
+                shutil.copy2(src, dst)
+        print(f"[Cache Seed] 已从 seed 目录恢复 {len(seed_files) - len(cache_files)} 个缓存文件")
+
 TEXTS_DIR = os.path.join(os.path.dirname(__file__), "texts")
 
 # 本地古籍文本库索引（书名 -> 文件名）
