@@ -3,12 +3,27 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<meta name="theme-color" content="#eae7e0" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#16140f" media="(prefers-color-scheme: dark)">
-<meta name="description" content="书脉 AI · 古籍阅读工作台 —— 以 AI 活化千年经典，让每一卷书再次被阅读。" />
+<meta name="theme-color" content="#16140f" />
+<meta name="description" content="书脉 AI · 古籍阅读工作台 —— 以 AI 活化千年经典，让每一卷书再次被阅读。收录 83 部经典古籍，支持 AI 知识图谱生成、文言文智能翻译与深度分析。" />
+<meta name="keywords" content="古籍,古文,文言文,AI,知识图谱,DeepSeek,山海经,论语,庄子,在线阅读,白话翻译,中国古典文学,数字人文" />
+<meta name="author" content="书脉 AI" />
+<meta name="robots" content="index, follow" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="书脉 AI" />
+<meta property="og:title" content="书脉 AI · 古籍阅读工作台" />
+<meta property="og:description" content="以 AI 活化千年经典，让每一卷书再次被阅读。83 部古籍在线阅读 + AI 知识图谱 + 文言文智能分析。" />
+<meta property="og:url" content="https://shumai.up.railway.app" />
+<meta property="og:locale" content="zh_CN" />
+<meta property="og:image" content="https://shumai.up.railway.app/assets/cover-shanhaijing.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="书脉 AI · 古籍阅读工作台" />
+<meta name="twitter:description" content="以 AI 活化千年经典，让每一卷书再次被阅读。" />
+<meta name="twitter:image" content="https://shumai.up.railway.app/assets/cover-shanhaijing.jpg" />
+<link rel="canonical" href="https://shumai.up.railway.app" />
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
 <link rel="apple-touch-icon" href="assets/favicon.svg" />
-<title>书脉 AI · 古籍阅读工作台</title>
+<link rel="mask-icon" href="assets/favicon.svg" color="#9c3434" />
+<title>书脉 AI · 古籍阅读工作台 — AI 活化经典古籍</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;600;700;900&family=Noto+Sans+SC:wght@300;400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <style>
@@ -118,19 +133,37 @@
 [data-theme="dark"] .gnode{box-shadow:var(--shadow-sm),inset 0 1px 0 rgba(255,255,255,.15),inset 0 -1px 0 rgba(0,0,0,.1)}
 [data-theme="dark"] .gc-btn,[data-theme="dark"] .graph-hint,[data-theme="dark"] .graph-legend{box-shadow:0 4px 16px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.1)}
 
-/* ── 暗色模式切换按钮（内嵌于 topbar） ── */
+/* ── 暗色模式切换按钮 ── */
 .theme-toggle{
-  width:34px;height:34px;border-radius:var(--r-full);border:1px solid var(--rule);
-  background:var(--surface);color:var(--muted);cursor:pointer;
+  width:38px;height:38px;border-radius:var(--r-full);
+  border:1px solid var(--rule);
+  background:linear-gradient(135deg,var(--surface) 0%,var(--surface-2) 100%);
+  color:var(--muted);cursor:pointer;
   display:flex;align-items:center;justify-content:center;
-  box-shadow:none;transition:all var(--dur-base) var(--ease-out);
-  flex-shrink:0;
+  box-shadow:var(--shadow-xs);transition:all var(--dur-slow) var(--ease-out);
+  flex-shrink:0;position:relative;overflow:hidden;
+}
+.theme-toggle::before{
+  content:"";position:absolute;inset:0;border-radius:var(--r-full);
+  background:linear-gradient(135deg,rgba(156,52,52,.12) 0%,rgba(200,164,77,.12) 100%);
+  opacity:0;transition:opacity var(--dur-slow) ease;
+}
+.theme-toggle:hover::before{opacity:1}
+.theme-toggle:hover{
+  border-color:var(--gold);color:var(--gold);
+  box-shadow:0 0 0 3px rgba(200,164,77,.08),var(--shadow-sm);
+  transform:scale(1.05);
 }
 [data-theme="dark"] .theme-toggle{
-  border-color:var(--rule);color:var(--gold);
+  border-color:var(--rule);
+  background:linear-gradient(135deg,rgba(40,36,28,1) 0%,rgba(22,20,15,1) 100%);
+  color:var(--gold);
 }
-.theme-toggle:hover{border-color:var(--gold);color:var(--gold);box-shadow:var(--shadow-glow-gold)}
-.theme-toggle svg{width:16px;height:16px}
+[data-theme="dark"] .theme-toggle::before{
+  background:linear-gradient(135deg,rgba(200,164,77,.15) 0%,rgba(156,52,52,.1) 100%);
+}
+.theme-toggle svg{width:17px;height:17px;transition:transform var(--dur-slow) var(--ease-spring),opacity var(--dur-base) ease;position:relative;z-index:1}
+.theme-toggle:hover svg{transform:rotate(15deg)}
 .theme-toggle .icon-sun{display:none}
 [data-theme="dark"] .theme-toggle .icon-moon{display:none}
 [data-theme="dark"] .theme-toggle .icon-sun{display:block}
@@ -4537,7 +4570,8 @@ console.log("✨ 书脉 AI 工作台已就绪");
 // 暗色模式切换
 (function(){
   const saved=localStorage.getItem("shumai_theme");
-  if(saved==="dark"){document.documentElement.setAttribute("data-theme","dark")}
+  // 默认暗黑模式：只有用户明确选了 light 才用亮色
+  if(saved!=="light"){document.documentElement.setAttribute("data-theme","dark")}
   const toggle=$("themeToggle");
   if(toggle){
     toggle.addEventListener("click",()=>{
