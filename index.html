@@ -295,7 +295,7 @@ button,input,textarea{font:inherit;color:inherit}
    书架页 · 沉浸式首页
    ═══════════════════════════════════════════════ */
 .shelf-container{
-  height:100%;overflow-y:auto;
+  height:100%;overflow-y:auto;overflow-x:hidden;
   scroll-behavior:smooth;
 }
 .shelf-container::-webkit-scrollbar{width:6px}
@@ -1665,10 +1665,11 @@ button,input,textarea{font:inherit;color:inherit}
   .shelf-hero-corner{display:none}
   .shelf-hero{grid-template-columns:1fr;min-height:auto;padding-top:var(--sp-16)}
   .shelf-hero-visual{order:-1;margin-bottom:var(--sp-4)}
-  .hfc-cover{height:220px}
-  .analyzer-container{grid-template-columns:1fr}
+  .analyzer-container{grid-template-columns:1fr;padding:var(--sp-8) var(--sp-4) var(--sp-12);gap:var(--sp-5)}
   .analyzer-left{position:static}
   .analyzer-right{min-height:300px}
+  .feature-guide{padding:var(--sp-10) var(--sp-4) var(--sp-8)}
+  .feature-card{padding:var(--sp-5)}
 }
 @media(max-width:640px){
   .mode-tab{padding:var(--sp-2) var(--sp-2);font-size:10px;letter-spacing:.04em}
@@ -1683,42 +1684,77 @@ button,input,textarea{font:inherit;color:inherit}
   .shelf-hero-eyebrow::before{width:20px}
   .shelf-section-header{flex-direction:column;align-items:flex-start}
   .shelf-footer{flex-direction:column;gap:var(--sp-3);text-align:center}
-  .topbar{padding:0 var(--sp-4);height:56px}
+  .topbar{padding:0 var(--sp-3);height:56px;grid-template-columns:auto 1fr auto}
   .page{top:56px}
-  .mode-tabs{padding:2px}
+  .mode-tabs{padding:2px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;justify-self:center;max-width:100%}
   /* —— 增强移动端适配 —— */
   .shelf-hero h1{font-size:clamp(64px,20vw,96px)}
   .shelf-hero-desc{font-size:14px;line-height:1.85}
   .shelf-hero-desc-en{font-size:11px}
   .shelf-hero-subtitle{letter-spacing:.28em}
+  .shelf-hero-stats{gap:var(--sp-3)}
+  .hs-num{font-size:24px}
   .reader-text{font-size:17px;padding:0 var(--sp-2)}
   .reader-toolbar{gap:var(--sp-1)}
-  .analyzer-input textarea{font-size:14px}
+  .analyzer-container{padding:var(--sp-6) var(--sp-3) var(--sp-10);gap:var(--sp-4)}
+  .analyzer-header h2{font-size:var(--fs-3xl)}
+  .analyzer-input{padding:var(--sp-4)}
+  .analyzer-input textarea{font-size:14px;min-height:180px;padding:var(--sp-3) var(--sp-4)}
+  .analyzer-right{padding:var(--sp-4);min-height:200px}
+  .feature-guide{padding:var(--sp-8) var(--sp-3) var(--sp-6)}
+  .feature-guide-header{margin-bottom:var(--sp-6)}
+  .fg-title{font-size:24px}
+  .feature-card{padding:var(--sp-5);min-height:auto;gap:var(--sp-3)}
+  .fc-icon{width:36px;height:36px}
+  .fc-title{font-size:var(--fs-md)}
+  .fc-desc{font-size:12px}
+  .hfc-body{padding:var(--sp-4) var(--sp-5) var(--sp-5)}
+  .hfc-title{font-size:22px}
+  .hfc-cover img{max-height:200px}
   .notes-panel{width:100%;max-width:100vw}
   .detail-overlay{width:100%;height:100%;max-height:100vh;border-radius:0}
   .detail-header{flex-direction:column;align-items:flex-start;gap:var(--sp-2)}
   .graph-controls{flex-wrap:wrap;gap:var(--sp-2)}
+  .graph-legend{font-size:10px}
   .ai-search-box{max-width:100%;padding:0 var(--sp-2)}
   .ai-result-item{flex-direction:column;align-items:flex-start;gap:var(--sp-2)}
   .ai-result-action{align-self:flex-start}
   .modal{width:96vw;height:85vh}
   .toolbar-left,.toolbar-right{gap:var(--sp-1)}
   .toolbar-right .btn{padding:var(--sp-1) var(--sp-2)}
+  .marquee-band{font-size:16px;padding:var(--sp-3) 0}
 }
 @media(max-width:480px){
-  .topbar{height:52px;padding:0 var(--sp-3)}
+  .topbar{height:52px;padding:0 var(--sp-2)}
   .page{top:52px}
   .mode-tabs{gap:0}
   .mode-tab{padding:var(--sp-2) var(--sp-1);font-size:9px;letter-spacing:.02em}
   .shelf-hero{min-height:36vh;padding:0 var(--sp-3) var(--sp-5)}
   .shelf-hero h1{font-size:clamp(56px,22vw,80px);letter-spacing:.04em}
   .shelf-hero-desc{font-size:13px;max-width:100%}
+  .shelf-hero-desc-en{font-size:10px}
   .shelf-hero-cta{font-size:10px;padding:var(--sp-3) var(--sp-5)}
+  .shelf-hero-stats{gap:var(--sp-2)}
+  .hs-num{font-size:20px}
+  .hs-label{font-size:8px}
   .shelf-collection{padding:var(--sp-10) var(--sp-3) var(--sp-8)}
   .shelf-card-cover{height:170px}
   .shelf-card-poster-title{font-size:20px}
   .reader-text{font-size:16px;line-height:2}
-  .analyzer-results,.analyzer-input,.analyzer-header{padding:0 var(--sp-1)}
+  .analyzer-container{padding:var(--sp-4) var(--sp-2) var(--sp-8)}
+  .analyzer-header h2{font-size:var(--fs-2xl)}
+  .analyzer-input{padding:var(--sp-3)}
+  .analyzer-input textarea{font-size:13px;min-height:140px}
+  .analyzer-right{padding:var(--sp-3);min-height:150px}
+  .analyzer-actions{flex-wrap:wrap}
+  .feature-card{padding:var(--sp-4)}
+  .fc-icon{width:32px;height:32px}
+  .fc-title{font-size:15px}
+  .hfc-body{padding:var(--sp-3) var(--sp-4) var(--sp-4)}
+  .hfc-title{font-size:18px}
+  .hfc-quote{font-size:12px}
+  .hfc-cover img{max-height:160px}
+  .marquee-band{font-size:14px;padding:var(--sp-2) 0}
   .modal{width:100vw;height:100vh;border-radius:0}
 }
 
